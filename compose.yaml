@@ -1,0 +1,22 @@
+﻿services:
+  api:
+    build: .
+    container_name: softplan-api
+    ports:
+      - "5000:5000"
+
+  integration-tests:
+    build:
+      context: .
+      target: testrunner
+    command: dotnet test ./tests/Softplan.TaskManager.IntegrationTests/Softplan.TaskManager.IntegrationTests.csproj --logger:trx
+    depends_on:
+      - api
+        
+  unit-tests:
+    build:
+      context: .
+      target: testrunner
+    command: dotnet test ./tests/Softplan.TaskManager.UnitTests/Softplan.TaskManager.UnitTests.csproj --logger:trx
+    depends_on:
+      - api
