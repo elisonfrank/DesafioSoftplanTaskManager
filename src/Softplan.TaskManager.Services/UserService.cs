@@ -1,5 +1,6 @@
 using Softplan.TaskManager.Database.Repositories;
 using Softplan.TaskManager.Dominio.Dto;
+using Softplan.TaskManager.Shared;
 
 namespace Softplan.TaskManager.Services;
 
@@ -38,7 +39,7 @@ public class UserService : IUserService
         var user = await _userRepository.GetByEmailAsync(loginDto.Email);
 
         if (user is null) return null;
-        var loginValid = user.Password == loginDto.Password;
+        var loginValid = PasswordHasher.VerifyPassword(loginDto.Password, user.Password);
             
         if (!loginValid) return null;
             

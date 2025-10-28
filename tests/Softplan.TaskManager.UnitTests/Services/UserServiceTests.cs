@@ -4,6 +4,7 @@ using Softplan.TaskManager.Database.Repositories;
 using Softplan.TaskManager.Dominio.Dto;
 using Softplan.TaskManager.Dominio.Entidades;
 using Softplan.TaskManager.Services;
+using Softplan.TaskManager.Shared;
 
 namespace Softplan.TaskManager.UnitTests.Services;
 
@@ -85,7 +86,7 @@ public class UserServiceTests
     public async Task LoginAsync_DeveRetornarNull_QuandoSenhaInvalida()
     {
         //Arrange
-        var user = new User { Id = Guid.NewGuid(), Email = "teste@email.com", Password = "123" };
+        var user = new User { Id = Guid.NewGuid(), Email = "teste@email.com", Password = PasswordHasher.HashPassword("123") };
         _userRepoMock.Setup(r => r.GetByEmailAsync(user.Email)).ReturnsAsync(user);
 
         var service = CreateService();
@@ -101,7 +102,7 @@ public class UserServiceTests
     public async Task LoginAsync_DeveRetornarLoginResultDto_QuandoCredenciaisValidas()
     {
         //Arrange
-        var user = new User { Id = Guid.NewGuid(), Email = "teste@email.com", Password = "123" };
+        var user = new User { Id = Guid.NewGuid(), Email = "teste@email.com", Password = PasswordHasher.HashPassword("123") };
         _userRepoMock.Setup(r => r.GetByEmailAsync(user.Email)).ReturnsAsync(user);
 
         var token = "fake-jwt";
