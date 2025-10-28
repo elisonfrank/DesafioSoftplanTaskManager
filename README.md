@@ -51,9 +51,29 @@ docker-compose up unit-tests
 
 Como o banco é SQLite InMemory, não há dependências externas.
 
+### 🔅 Utilização
+Para executar o gerenciamento de tasks, é necessário ter um usuário autenticado na API.
+
+#### Usuário
+- Para criar um usuário:
+    - Rota ***POST /api/v1/users***
+- Para logar o usuário:
+    - Rota ***POST /api/v1/users/login*** (retorno do token JWT)
+
+#### Task
+*Para criar, completar e deletar uma task é necessário autenticação na API. (Bearer {token})*
+- Para criar uma task:
+    - Rota ***POST /api/v1/tasks***
+- Para listar tasks do usuário:
+    - Rota ***GET /api/v1/tasks/{userId}***
+- Para completar uma task:
+    - Rota ***PUT /api/v1/tasks/{id}/complete***
+- Para deletar uma task:
+    - Rota ***DELETE /api/v1/tasks/{id}***
+
 ## 👤 Autor
 
 - **Nome:** Élison Frankowski
 - **GitHub:** [@elisonfrank](https://github.com/elisonfrank)
 - **LinkedIn:** [elison-frankowski](https://www.linkedin.com/in/elison-frankowski-5b0543117)
-- **Contato:** (42)99149-6711
+- **Contato:** (42) 99149-6711
