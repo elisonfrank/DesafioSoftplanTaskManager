@@ -31,7 +31,9 @@ public class UserService : IUserService
 
     public async Task<UserDto> AddNewUserAsync(NewUserDto newUserDto)
     {
-        return await _userRepository.AddAsync(newUserDto);
+        var userDto = await _userRepository.AddAsync(newUserDto);
+        userDto.Email = userDto.Email.MaskEmail();
+        return userDto;
     }
 
     public async Task<LoginResultDto?> LoginAsync(LoginDto loginDto)
@@ -44,6 +46,6 @@ public class UserService : IUserService
         if (!loginValid) return null;
             
         var (tokenJwt, expiration) = _tokenService.GenerateToken(user.Email);
-        return new LoginResultDto(tokenJwt, expiration, new UserDto(user.Id, user.Email));
+        return new LoginResultDto(tokenJwt, expiration, new UserDto(user.Id, user.Email.MaskEmail()));
     }
 }
